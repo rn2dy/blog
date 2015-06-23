@@ -1,9 +1,6 @@
 package main
 
 import (
-	"github.com/russross/blackfriday"
-	"io/ioutil"
-	"log"
 	"net/http"
 	"path/filepath"
 )
@@ -21,27 +18,17 @@ func indexHandler(_ *C, w http.ResponseWriter, r *http.Request) {
 	}{"", true}))
 }
 
+func blogHandler(c *C, w http.ResponseWriter, r *http.Request) {
+	// get most recent blog entries
+	articles := recentArticles(site.articlesDir)
+	w.Write(renderPage("article.html", struct {
+		Articles []string
+	}{articles}))
+}
+
 func articleHandler(c *C, w http.ResponseWriter, r *http.Request) {
 	if _, ok := c.vars["slug"]; !ok {
 		http.Redirect(w, r, filepath.Join(site.pagesDir, page_404), http.StatusNotFound)
 		return
 	}
-	var title = c.vars["slug"]
-
-	path, found := articlePath(site.articlesDir, title+".md")
-	if !found {
-		http.Redirect(w, r, filepath.Join(site.pagesDir, page_404), http.StatusNotFound)
-		return
-	}
-
-	data, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Fatalf("Cannot read article from %q.", path)
-	}
-	out := blackfriday.MarkdownCommon(data)
-	w.Write(renderPage("article.html", struct {
-		Title      string
-		Content    string
-		SkipFooter bool
-	}{title, string(out), false}))
 }

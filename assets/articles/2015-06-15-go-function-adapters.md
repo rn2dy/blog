@@ -1,4 +1,6 @@
-Code block
+In this post I will talk about function adapter in Go, the purpose and application.
+
+Here is an example of using function adapter to decorate a integer generator for differnt output sequence
 
     package main
 

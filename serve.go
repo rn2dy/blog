@@ -56,6 +56,7 @@ func main() {
 	}
 
 	router.add("/", indexHandler)
+	router.add("/blog", blogHandler)
 	router.add("/blog/:slug", articleHandler)
 
 	err := http.ListenAndServe(port, Mux{router, &SimpleLogger{}})
