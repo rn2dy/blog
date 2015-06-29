@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"path/filepath"
+	"time"
 )
 
 type Handler func(*C, http.ResponseWriter, *http.Request)
@@ -33,9 +34,12 @@ func articleHandler(c *C, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	article := FindArticle(c.vars["slug"])
+	byDate, byTag := GetArchiveList()
 	w.Write(renderPage("article.html", struct {
-		Title      string
-		Article    *Article
-		SkipFooter bool
-	}{article.Title, article, true}))
+		Title         string
+		Article       *Article
+		ArchiveByDate []time.Time
+		ArchiveByTag  tagSet
+		SkipFooter    bool
+	}{article.Title, article, byDate, byTag, true}))
 }

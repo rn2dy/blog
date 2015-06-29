@@ -1,64 +1,51 @@
 {{define "Content"}}
-<div id="layout" class="pure-g">
+<div id="layout" class="pure-g" data-role="page">
+
+  <div class="pure-u-1-2" id="archive-list-panel">
+    <div class="menu-group">
+      <div class="menu-title"><p>Archives</p></div>
+      <ul class="pure-menu-list">
+        {{range .ArchiveByDate}}
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link">{{. | simpleDate}}</a></li>
+        {{end}}
+      </ul>
+    </div>
+
+    <div class="menu-group">
+      <div class="menu-title"><p>Categories</p></div>
+      <ul class="pure-menu-list">
+        {{range .ArchiveByTag}}
+        <li class="pure-menu-item"><a href="#" class="pure-menu-link">{{.}}</a></li>
+        {{end}}
+      </ul>
+    </div>
+  </div>
 
   <div class="pure-u-1 single-header-wrapper">
     <div class="single-header">
       <h1><a href="/blog">Rn2dy's Blog</a></h1>
-    </div>
-  </div>
-
-  <a href="#menu" id="archive-links-stacked" class="archive-links-stacked"><i class="fa fa-list"></i></a>
-  <div id="archive-links-stacked-content" class="pure-u-sm-1-2">
-    <div class="pure-menu">
-      <div class="menu-group">
-        <div class="menu-title"><p>Archives</p></div>
-        <ul class="pure-menu-list">
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-        </ul>
-      </div>
-      <div class="menu-group">
-        <div class="menu-title"><p>Categories</p></div>
-        <ul class="pure-menu-list">
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Programming</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Golang</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Javascript</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Ruby</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Java</a></li>
-        </ul>
-      </div>
+      <a id="archive-menu" href="#"><i class="fa fa-list"></i></a>
     </div>
   </div>
 
   <div class="pure-u-md-1-8"></div>
-  <div class="pure-u-1 pure-u-md-1-8 archive-links">
+  <div class="pure-u-1 pure-u-md-1-8 archive-list">
     <div class="pure-menu">
       <div class="menu-group">
         <div class="menu-title"><p>Archives</p></div>
         <ul class="pure-menu-list">
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">2015-01-02</a></li>
+          {{range .ArchiveByDate}}
+          <li class="pure-menu-item"><a href="#" class="pure-menu-link">{{. | simpleDate}}</a></li>
+          {{end}}
         </ul>
       </div>
 
       <div class="menu-group">
         <div class="menu-title"><p>Categories</p></div>
         <ul class="pure-menu-list">
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Programming</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Golang</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Javascript</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Ruby</a></li>
-          <li class="pure-menu-item"><a href="#" class="pure-menu-link">Java</a></li>
+          {{range .ArchiveByTag}}
+          <li class="pure-menu-item"><a href="#" class="pure-menu-link">{{.}}</a></li>
+          {{end}}
         </ul>
       </div>
     </div>

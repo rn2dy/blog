@@ -89,6 +89,23 @@ func FindArticle(slug string) *Article {
 	return nil
 }
 
+func GetArchiveList() (byDate []time.Time, byTag tagSet) {
+	var articles Articles
+	if len(cache.articles) > 0 {
+		articles = cache.articles
+	} else {
+		articles = LoadArticles()
+	}
+	byDate = make([]time.Time, len(articles))
+	for i, art := range articles {
+		byDate[i] = art.Date
+		for _, t := range art.Tags {
+			byTag.add(t)
+		}
+	}
+	return
+}
+
 func (arts Articles) Len() int           { return len(arts) }
 func (arts Articles) Swap(i, j int)      { arts[i], arts[j] = arts[j], arts[i] }
 func (arts Articles) Less(i, j int) bool { return arts[i].Date.Before(arts[j].Date) }

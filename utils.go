@@ -72,3 +72,15 @@ func simpleDate(date time.Time) string {
 func toLink(title string) string {
 	return strings.Replace(strings.ToLower(title), " ", "-", -1)
 }
+
+type tagSet []string
+
+func (s *tagSet) add(x string) {
+	for _, item := range *s {
+		if x == item {
+			return
+		}
+	}
+
+	*s = append(*s, x)
+}
