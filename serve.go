@@ -1,13 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"flag"
 	"log"
 	"net/http"
-	"path/filepath"
-	"strings"
-	tpl "text/template"
 )
 
 const (
@@ -44,19 +40,4 @@ func main() {
 	if err != nil {
 		log.Fatalf("Cannot start server on port: %q", port)
 	}
-}
-
-func renderPage(pageName string, data interface{}) []byte {
-	var buf bytes.Buffer
-	contentPath := filepath.Join(CONFIG.pagesDir, pageName)
-	layoutPath := filepath.Join(CONFIG.pagesDir, defaultLayout)
-
-	t, err := tpl.New("layout.html").Funcs(tpl.FuncMap{"cap": strings.Title, "simpleDate": simpleDate, "toLink": toLink}).ParseFiles(layoutPath, contentPath)
-	if err != nil {
-		log.Printf("ParseFile: %s, %s", layoutPath, contentPath)
-	}
-	if err := t.Execute(&buf, data); err != nil {
-		log.Printf("%s.Execute: %s", t.Name(), err)
-	}
-	return buf.Bytes()
 }
