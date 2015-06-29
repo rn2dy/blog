@@ -2,43 +2,58 @@ package main
 
 import (
 	"log"
+	"os"
+	"path/filepath"
 	"regexp"
-	"strconv"
-	"strings"
+	"sort"
 	"time"
 )
 
 var TitleRegex = regexp.MustCompile(`^([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])_([a-zA-Z_]+)-([^.]+)`)
 
+// Article is the model of each posts
 type Article struct {
 	Title   string
 	Tags    []string
 	Date    time.Time
-	Content []byte
+	Content string
 
 	src string
 }
 
-func NewArticle(src string) *Article {
+// Articles is a collection of Article
+type Articles []*Article
+
+// Loads all articles in srcDir
+func LoadArticles(srcDir string) Articles {
+	var srcs []string
+	filepath.Walk(srcDir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			log.Fatal(err)
+		}
+		if !info.IsDir() {
+			srcs = append(srcs, path)
+		}
+		return nil
+	})
+	articles := make([]*Article, len(srcs))
+	for i, src := range srcs {
+		articles[i] = LoadArticle(src, false)
+	}
+	sort.Sort(Articles(articles))
+
+	return articles
+}
+
+func LoadArticle(src string, skipContent bool) *Article {
 	a := &Article{src: src}
-	a.parseName()
+	a.Date, a.Tags, a.Title = parseFilename(src)
+	if !skipContent {
+		a.Content = string(readMarkdowns(src)[0])
+	}
 	return a
 }
 
-func (a *Article) parseName() {
-	m := TitleRegex.FindAllStringSubmatch(a.src, -1)
-	if len(m) == 0 {
-		log.Fatalf("Can not parse filename: %q", a.src)
-	}
-	if len(m[0]) != 6 {
-		log.Fatalf("Filename not formatted correctly: %q. Got: %v", a.src, m)
-	}
-	mm := m[0]
-	year, _ := strconv.Atoi(mm[1])
-	mon, _ := strconv.Atoi(mm[2])
-	day, _ := strconv.Atoi(mm[3])
-
-	a.Date = makeDate(year, mon, day)
-	a.Tags = strings.Split(mm[4], "_")
-	a.Title = strings.Join(strings.Split(mm[5], "-"), " ")
-}
+func (arts Articles) Len() int           { return len(arts) }
+func (arts Articles) Swap(i, j int)      { arts[i], arts[j] = arts[j], arts[i] }
+func (arts Articles) Less(i, j int) bool { return arts[i].Date.Before(arts[j].Date) }

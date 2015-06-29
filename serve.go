@@ -5,8 +5,8 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	"os"
 	"path/filepath"
+	"strings"
 	tpl "text/template"
 )
 
@@ -20,36 +20,17 @@ const (
 )
 
 var root, port string
-var site *Site
+var CONFIG *siteConfig
 
 func init() {
-	flag.StringVar(&root, "root", "", "Website root (parent of 'assets', 'pages")
+	flag.StringVar(&root, "root", "", "Site root directory (parent directory of 'assets', 'pages', etc")
 	flag.StringVar(&port, "port", ":3000", "http server port")
-}
-
-type Site struct {
-	assetsDir, pagesDir, articlesDir string
-}
-
-func (s Site) initialize() *Site {
-	// check root directory
-	if root == "" {
-		_, err := os.Getwd()
-		if err != nil {
-			log.Fatalf("Failed to getwd: %v", err)
-		}
-	}
-	log.Printf("Site root is: %q\n", root)
-
-	s.assetsDir = filepath.Join(root, assetsFolder)
-	s.pagesDir = filepath.Join(root, pagesFolder)
-	s.articlesDir = filepath.Join(root, articlesFolder)
-	return &s
 }
 
 func main() {
 	flag.Parse()
-	site = Site{}.initialize()
+
+	CONFIG = NewSiteConfig(root)
 
 	router := &Router{
 		assetsServer: http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))),
@@ -67,10 +48,10 @@ func main() {
 
 func renderPage(pageName string, data interface{}) []byte {
 	var buf bytes.Buffer
-	contentPath := filepath.Join(site.pagesDir, pageName)
-	layoutPath := filepath.Join(site.pagesDir, defaultLayout)
+	contentPath := filepath.Join(CONFIG.pagesDir, pageName)
+	layoutPath := filepath.Join(CONFIG.pagesDir, defaultLayout)
 
-	t, err := tpl.ParseFiles(layoutPath, contentPath)
+	t, err := tpl.New("layout.html").Funcs(tpl.FuncMap{"cap": strings.Title}).ParseFiles(layoutPath, contentPath)
 	if err != nil {
 		log.Printf("ParseFile: %s, %s", layoutPath, contentPath)
 	}

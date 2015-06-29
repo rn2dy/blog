@@ -19,16 +19,17 @@ func indexHandler(_ *C, w http.ResponseWriter, r *http.Request) {
 }
 
 func blogHandler(c *C, w http.ResponseWriter, r *http.Request) {
-	// get most recent blog entries
-	articles := recentArticles(site.articlesDir)
-	w.Write(renderPage("article.html", struct {
-		Articles []string
-	}{articles}))
+	articles := LoadArticles(CONFIG.articlesDir)
+	w.Write(renderPage("articles.html", struct {
+		Title      string
+		Articles   Articles
+		SkipFooter bool
+	}{"Articles", articles, true}))
 }
 
 func articleHandler(c *C, w http.ResponseWriter, r *http.Request) {
 	if _, ok := c.vars["slug"]; !ok {
-		http.Redirect(w, r, filepath.Join(site.pagesDir, page_404), http.StatusNotFound)
+		http.Redirect(w, r, filepath.Join(CONFIG.pagesDir, page_404), http.StatusNotFound)
 		return
 	}
 }

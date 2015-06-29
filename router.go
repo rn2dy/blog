@@ -36,7 +36,6 @@ func (m Matcher) matchPath(path string) (map[string]string, bool) {
 type Router struct {
 	assetsServer http.Handler
 	matchers     []Matcher
-	site         *Site
 }
 
 func (router *Router) match(c *C, r *http.Request) (interface{}, error) {
@@ -59,7 +58,7 @@ func (router *Router) match(c *C, r *http.Request) (interface{}, error) {
 func (router *Router) route(c *C, w http.ResponseWriter, r *http.Request) {
 	handler, err := router.match(c, r)
 	if err != nil {
-		http.Redirect(w, r, filepath.Join(site.pagesDir, page_404), http.StatusNotFound)
+		http.Redirect(w, r, filepath.Join(CONFIG.pagesDir, page_404), http.StatusNotFound)
 		return
 	}
 	switch h := handler.(type) {
