@@ -8,6 +8,63 @@ html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
   font-family: 'Open Sans', sans-serif; 
 }
 
+#archive-links-stacked-content {
+  display: none;
+  position: absolute;
+  right: 3em;
+  top: 1em;
+  width: auto;
+  padding: 1em;
+  background-color: rgba(0,0,0,0.7);
+  color: #ececec;
+  letter-spacing: normal;
+}
+
+#archive-links-stacked-content .pure-menu-link {
+  color: #ccc;
+}
+
+#archive-links-stacked-content .pure-menu-link:hover {
+  background-color: inherit;
+}
+
+.archive-links-stacked {
+  position: fixed;
+  display: block;
+  top: 0;
+  right: 0;
+  background: #000;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  z-index: 10;
+  padding: 0.5em 1em;
+}
+
+.archive-links {
+  margin-top: 2.5em;
+  display: none;
+}
+
+.archive-links .pure-menu-link {
+  display: inline-block;
+}
+
+@media (min-width: 58em) {
+  .archive-links-stacked {
+    display: none;
+  }
+  .archive-links {
+    display: block;
+  }
+}
+
+.text-centered {
+  text-align: center;
+}
+.centered {
+  margin: auto;
+}
+
 .post-body pre.prettyprint {
   padding: 0.5em;
   border-radius: 5px;
@@ -85,6 +142,17 @@ a:focus {
   padding: 0;
 }
 
+.single-header-wrapper {
+  background-color: rgb(61, 79, 93);
+}
+
+.single-header h1 a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  margin-left: 1.5rem;
+}
+
 .header {
   text-align: center;
   top: auto;
@@ -148,6 +216,7 @@ a:focus {
   padding: 2em 1em 0;
 }
 .post {
+  padding: 1em;
   padding-bottom: 2em;
 }
 .post-divider {

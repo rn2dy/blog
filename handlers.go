@@ -19,7 +19,7 @@ func indexHandler(_ *C, w http.ResponseWriter, r *http.Request) {
 }
 
 func blogHandler(c *C, w http.ResponseWriter, r *http.Request) {
-	articles := LoadArticles(CONFIG.articlesDir)
+	articles := LoadArticles()
 	w.Write(renderPage("articles.html", struct {
 		Title      string
 		Articles   Articles
@@ -32,4 +32,10 @@ func articleHandler(c *C, w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, filepath.Join(CONFIG.pagesDir, page_404), http.StatusNotFound)
 		return
 	}
+	article := FindArticle(c.vars["slug"])
+	w.Write(renderPage("article.html", struct {
+		Title      string
+		Article    *Article
+		SkipFooter bool
+	}{article.Title, article, true}))
 }

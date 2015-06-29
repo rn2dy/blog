@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -25,10 +26,20 @@ type Article struct {
 // Articles is a collection of Article
 type Articles []*Article
 
+// to void loading articles on every request
+type contentCache struct {
+	articles Articles
+}
+
+var cache = new(contentCache)
+
 // Loads all articles in srcDir
-func LoadArticles(srcDir string) Articles {
+func LoadArticles() Articles {
+	if len(cache.articles) > 0 {
+		return cache.articles
+	}
 	var srcs []string
-	filepath.Walk(srcDir, func(path string, info os.FileInfo, err error) error {
+	filepath.Walk(CONFIG.articlesDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -43,6 +54,7 @@ func LoadArticles(srcDir string) Articles {
 	}
 	sort.Sort(Articles(articles))
 
+	cache.articles = articles
 	return articles
 }
 
@@ -59,6 +71,22 @@ func LoadArticle(src string, skipContent bool) *Article {
 		a.FullContent = full
 	}
 	return a
+}
+
+func FindArticle(slug string) *Article {
+	title := strings.Replace(slug, "-", " ", -1)
+	var articles Articles
+	if len(cache.articles) > 0 {
+		articles = cache.articles
+	} else {
+		articles = LoadArticles()
+	}
+	for _, art := range articles {
+		if strings.ToLower(art.Title) == title {
+			return art
+		}
+	}
+	return nil
 }
 
 func (arts Articles) Len() int           { return len(arts) }
