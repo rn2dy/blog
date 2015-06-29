@@ -65,6 +65,10 @@ func makeDate(y, m, d int) time.Time {
 	return time.Date(y, time.Month(m), d, 0, 0, 0, 0, time.UTC)
 }
 
-func isLast(coll Articles, index int) bool {
-	return len(coll) == index-1
+func simpleDate(date time.Time) string {
+	return date.Format("01/02/2006")
+}
+
+func toLink(title string) string {
+	return strings.Replace(strings.ToLower(title), " ", "-", -1)
 }

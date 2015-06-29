@@ -13,10 +13,11 @@ var TitleRegex = regexp.MustCompile(`^([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]
 
 // Article is the model of each posts
 type Article struct {
-	Title   string
-	Tags    []string
-	Date    time.Time
-	Content string
+	Title        string
+	Tags         []string
+	Date         time.Time
+	ShortContent string
+	FullContent  string
 
 	src string
 }
@@ -49,7 +50,13 @@ func LoadArticle(src string, skipContent bool) *Article {
 	a := &Article{src: src}
 	a.Date, a.Tags, a.Title = parseFilename(src)
 	if !skipContent {
-		a.Content = string(readMarkdowns(src)[0])
+		full := string(readMarkdowns(src)[0])
+		k := len(full)
+		if len(full) > 255 {
+			k = 255
+		}
+		a.ShortContent = full[:k]
+		a.FullContent = full
 	}
 	return a
 }

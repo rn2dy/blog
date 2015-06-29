@@ -51,7 +51,7 @@ func renderPage(pageName string, data interface{}) []byte {
 	contentPath := filepath.Join(CONFIG.pagesDir, pageName)
 	layoutPath := filepath.Join(CONFIG.pagesDir, defaultLayout)
 
-	t, err := tpl.New("layout.html").Funcs(tpl.FuncMap{"cap": strings.Title}).ParseFiles(layoutPath, contentPath)
+	t, err := tpl.New("layout.html").Funcs(tpl.FuncMap{"cap": strings.Title, "simpleDate": simpleDate, "toLink": toLink}).ParseFiles(layoutPath, contentPath)
 	if err != nil {
 		log.Printf("ParseFile: %s, %s", layoutPath, contentPath)
 	}

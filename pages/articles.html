@@ -23,102 +23,30 @@
       <!-- A wrapper for all the blog posts -->
       <div class="posts">
         <h1 class="content-subhead">Recent Posts</h1>
-        <!-- A single blog post -->
+          <!-- A single blog post -->
           {{range $i, $a := .Articles}}
             {{if $i }}<hr class="post-divider"/>{{end}}
             <section class="post">
               <header class="post-header">
-                <h2 class="post-title">{{$a.Title | cap}}</h2>
+                <h2 class="post-title"><a href="/blog/{{$a.Title | toLink}}">{{$a.Title | cap}}</a></h2>
                 <p class="post-meta">
                   {{range $j, $t := $a.Tags}}
                     {{if $j}}<i class="fa fa-circle"></i>{{end}}
                     <a href="#">{{$t | cap}}</a>
                   {{end}}
+                  <a href="#" class="post-date">{{$a.Date | simpleDate}}</a>
                 </p>
               </header>
 
-              <div class="post-body">
-                {{$a.Content}}
-              </div>
+              {{if ge (len $a.FullContent) 255}}
+              <div class="post-body">{{$a.ShortContent}} ...</div>
+              <a href="/blog/{{$a.Title | toLink}}">Read more</a>
+              {{else}}
+              <div class="post-body">{{$a.FullContent}}</div>
+              {{end}}
             </section>
           {{end}}
-
       </div>
-
-      <!-- <div class="posts"> -->
-      <!--   <h1 class="content&#45;subhead">Recent Posts</h1> -->
-      <!--  -->
-      <!--   <section class="post"> -->
-      <!--     <header class="post&#45;header"> -->
-      <!--       <h2 class="post&#45;title">Everything You Need to Know About Grunt</h2> -->
-      <!--  -->
-      <!--       <p class="post&#45;meta"> -->
-      <!--         By <a class="post&#45;author" href="#">Eric Ferraiuolo</a> under <a class="post&#45;category post&#45;category&#45;js" href="#">JavaScript</a> -->
-      <!--       </p> -->
-      <!--     </header> -->
-      <!--  -->
-      <!--     <div class="post&#45;description"> -->
-      <!--       <p> -->
-      <!--         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. -->
-      <!--       </p> -->
-      <!--     </div> -->
-      <!--   </section> -->
-      <!--  -->
-      <!--   <section class="post"> -->
-      <!--     <header class="post&#45;header"> -->
-      <!--       <h2 class="post&#45;title">Photos from CSSConf and JSConf</h2> -->
-      <!--  -->
-      <!--       <p class="post&#45;meta"> -->
-      <!--         By <a class="post&#45;author" href="#">Reid Burke</a> under <a class="post&#45;category" href="#">Uncategorized</a> -->
-      <!--       </p> -->
-      <!--     </header> -->
-      <!--  -->
-      <!--     <div class="post&#45;description"> -->
-      <!--       <div class="post&#45;images pure&#45;g"> -->
-      <!--         <div class="pure&#45;u&#45;1 pure&#45;u&#45;md&#45;1&#45;2"> -->
-      <!--           <a href="http://www.flickr.com/photos/uberlife/8915936174/"> -->
-      <!--             <img alt="Photo of someone working poolside at a resort" -->
-      <!--             class="pure&#45;img&#45;responsive" -->
-      <!--             src="http://farm8.staticflickr.com/7448/8915936174_8d54ec76c6.jpg"> -->
-      <!--           </a> -->
-      <!--  -->
-      <!--           <div class="post&#45;image&#45;meta"> -->
-      <!--             <h3>CSSConf Photos</h3> -->
-      <!--           </div> -->
-      <!--         </div> -->
-      <!--  -->
-      <!--         <div class="pure&#45;u&#45;1 pure&#45;u&#45;md&#45;1&#45;2"> -->
-      <!--           <a href="http://www.flickr.com/photos/uberlife/8907351301/"> -->
-      <!--             <img alt="Photo of the sunset on the beach" -->
-      <!--             class="pure&#45;img&#45;responsive" -->
-      <!--             src="http://farm8.staticflickr.com/7382/8907351301_bd7460cffb.jpg"> -->
-      <!--           </a> -->
-      <!--  -->
-      <!--           <div class="post&#45;image&#45;meta"> -->
-      <!--             <h3>JSConf Photos</h3> -->
-      <!--           </div> -->
-      <!--         </div> -->
-      <!--       </div> -->
-      <!--     </div> -->
-      <!--   </section> -->
-      <!--  -->
-      <!--   <section class="post"> -->
-      <!--     <header class="post&#45;header"> -->
-      <!--  -->
-      <!--       <h2 class="post&#45;title">YUI 3.10.2 Released</h2> -->
-      <!--  -->
-      <!--       <p class="post&#45;meta"> -->
-      <!--         By <a class="post&#45;author" href="#">Andrew Wooldridge</a> under <a class="post&#45;category post&#45;category&#45;yui" href="#">YUI</a> -->
-      <!--       </p> -->
-      <!--     </header> -->
-      <!--  -->
-      <!--     <div class="post&#45;description"> -->
-      <!--       <p> -->
-      <!--         We are happy to announce the release of YUI 3.10.2! You can find it now on the Yahoo! CDN, download it directly, or pull it in via npm. We’ve also updated the YUI Library website with the latest documentation. -->
-      <!--       </p> -->
-      <!--     </div> -->
-      <!--   </section> -->
-      <!-- </div> -->
 
       <div class="footer">
         <div class="pure-menu pure-menu-horizontal">
