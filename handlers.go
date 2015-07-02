@@ -34,6 +34,10 @@ func articleHandler(c *C, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	article := FindArticle(c.vars["slug"])
+	if article == nil {
+		http.Redirect(w, r, filepath.Join(CONFIG.pagesDir, page_404), http.StatusNotFound)
+		return
+	}
 	byDate, byTag := GetArchiveList()
 	w.Write(renderPage("article.html", struct {
 		Title         string
