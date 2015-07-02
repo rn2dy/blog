@@ -1,3 +1,0 @@
-# Greetings
-
-That's it!
