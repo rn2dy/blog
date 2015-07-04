@@ -6,12 +6,14 @@ import (
 	"path/filepath"
 )
 
-type siteConfig struct {
+// SiteConfig holds global configs, mostly paths
+type SiteConfig struct {
 	rootDir, assetsDir, pagesDir, articlesDir string
 }
 
-func NewSiteConfig(root string) *siteConfig {
-	s := &siteConfig{}
+// NewSiteConfig initialize global site config
+func NewSiteConfig(root string) *SiteConfig {
+	s := &SiteConfig{}
 	// check root directory
 	if root == "" {
 		_, err := os.Getwd()

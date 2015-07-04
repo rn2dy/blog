@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// TitleRegex matches the post slug
 var TitleRegex = regexp.MustCompile(`^([0-9]+)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])_([a-zA-Z_]+)-([^.]+)`)
 
 // Article is the model of each posts
@@ -33,13 +34,13 @@ type contentCache struct {
 
 var cache = new(contentCache)
 
-// Loads all articles in srcDir
+// LoadArticles all articles in srcDir
 func LoadArticles() Articles {
 	if len(cache.articles) > 0 {
 		return cache.articles
 	}
 	var srcs []string
-	filepath.Walk(CONFIG.articlesDir, func(path string, info os.FileInfo, err error) error {
+	filepath.Walk(config.articlesDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -58,6 +59,7 @@ func LoadArticles() Articles {
 	return articles
 }
 
+// LoadArticle load one
 func LoadArticle(src string, skipContent bool) *Article {
 	a := &Article{src: src}
 	a.Date, a.Tags, a.Title = parseFilename(src)
@@ -73,6 +75,7 @@ func LoadArticle(src string, skipContent bool) *Article {
 	return a
 }
 
+// FindArticle find article based on the slug
 func FindArticle(slug string) *Article {
 	title := strings.Replace(slug, "-", " ", -1)
 	var articles Articles
@@ -89,6 +92,7 @@ func FindArticle(slug string) *Article {
 	return nil
 }
 
+// GetArchiveList generate a archive list grouped by dates and tags/categories
 func GetArchiveList() (byDate []time.Time, byTag tagSet) {
 	var articles Articles
 	if len(cache.articles) > 0 {

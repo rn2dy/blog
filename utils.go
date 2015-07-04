@@ -77,8 +77,8 @@ func toLink(title string) string {
 
 func renderPage(pageName string, data interface{}) []byte {
 	var buf bytes.Buffer
-	contentPath := filepath.Join(CONFIG.pagesDir, pageName)
-	layoutPath := filepath.Join(CONFIG.pagesDir, defaultLayout)
+	contentPath := filepath.Join(config.pagesDir, pageName)
+	layoutPath := filepath.Join(config.pagesDir, defaultLayout)
 
 	t, err := tpl.New("layout.html").Funcs(tpl.FuncMap{"cap": strings.Title, "simpleDate": simpleDate, "toLink": toLink}).ParseFiles(layoutPath, contentPath)
 	if err != nil {

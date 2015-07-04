@@ -11,6 +11,7 @@ import (
 
 var pathVarReg = regexp.MustCompile(`(:[^?/()]+)`)
 
+// Matcher my custom path matcher
 type Matcher struct {
 	names   []string
 	reg     *regexp.Regexp
@@ -33,18 +34,19 @@ func (m Matcher) matchPath(path string) (map[string]string, bool) {
 	return vars, true
 }
 
+// Router register matchers from a pattern and also does static file serving
 type Router struct {
 	assetsServer http.Handler
 	matchers     []Matcher
 }
 
-func (router *Router) match(c *C, r *http.Request) (interface{}, error) {
+func (rter *Router) match(c *C, r *http.Request) (interface{}, error) {
 	// check static assets request first
 	if strings.HasPrefix(noRootSlash(r.URL.Path), noRootSlash(assetsFolder)) {
 		log.Printf("Serve static file from %q.", r.URL.Path)
-		return router.assetsServer, nil
+		return rter.assetsServer, nil
 	}
-	for _, m := range router.matchers {
+	for _, m := range rter.matchers {
 		if vars, ok := m.matchPath(r.URL.Path); ok {
 			for k, v := range vars {
 				c.vars[k] = v
@@ -55,10 +57,10 @@ func (router *Router) match(c *C, r *http.Request) (interface{}, error) {
 	return nil, fmt.Errorf("Unmatched route: %q\n", r.URL.Path)
 }
 
-func (router *Router) route(c *C, w http.ResponseWriter, r *http.Request) {
-	handler, err := router.match(c, r)
+func (rter *Router) route(c *C, w http.ResponseWriter, r *http.Request) {
+	handler, err := rter.match(c, r)
 	if err != nil {
-		http.Redirect(w, r, filepath.Join(CONFIG.pagesDir, page_404), http.StatusNotFound)
+		http.Redirect(w, r, filepath.Join(config.pagesDir, page404), http.StatusNotFound)
 		return
 	}
 	switch h := handler.(type) {
@@ -71,7 +73,7 @@ func (router *Router) route(c *C, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (r *Router) add(path string, h Handler) {
+func (rter *Router) add(path string, h Handler) {
 	index := pathVarReg.FindAllStringIndex(path, -1)
 	var reg = ""
 	if len(index) == 0 {
@@ -89,5 +91,5 @@ func (r *Router) add(path string, h Handler) {
 	for i, n := range namesMatches {
 		names[i] = n[0][1:]
 	}
-	r.matchers = append(r.matchers, Matcher{names, regexp.MustCompile(reg + "$"), h})
+	rter.matchers = append(rter.matchers, Matcher{names, regexp.MustCompile(reg + "$"), h})
 }

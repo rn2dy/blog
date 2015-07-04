@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+// Handler a adapter for my own convenient
 type Handler func(*C, http.ResponseWriter, *http.Request)
 
 func (h Handler) serveHTTP(c *C, w http.ResponseWriter, r *http.Request) {
@@ -30,12 +31,12 @@ func blogHandler(c *C, w http.ResponseWriter, r *http.Request) {
 
 func articleHandler(c *C, w http.ResponseWriter, r *http.Request) {
 	if _, ok := c.vars["slug"]; !ok {
-		http.Redirect(w, r, filepath.Join(CONFIG.pagesDir, page_404), http.StatusNotFound)
+		http.Redirect(w, r, filepath.Join(config.pagesDir, page404), http.StatusNotFound)
 		return
 	}
 	article := FindArticle(c.vars["slug"])
 	if article == nil {
-		http.Redirect(w, r, filepath.Join(CONFIG.pagesDir, page_404), http.StatusNotFound)
+		http.Redirect(w, r, filepath.Join(config.pagesDir, page404), http.StatusNotFound)
 		return
 	}
 	byDate, byTag := GetArchiveList()

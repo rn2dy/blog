@@ -4,12 +4,13 @@ import (
 	"net/http"
 )
 
+// Mux custom http multiplexer
 type Mux struct {
 	router *Router
 	logger Logger
 }
 
-// context to store free variables
+// C http request context to store free variables
 type C struct {
 	vars map[string]string
 }
