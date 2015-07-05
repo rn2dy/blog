@@ -51,7 +51,7 @@ html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
     display: none !important;
   }
   .archive-list {
-    display: block;
+    display: inline-block;
   }
 }
 
@@ -90,6 +90,7 @@ body {
   text-align: center;
   margin: auto;
   margin-top: 10%;
+  display: block;
 }
 
 .intro h1 {
