@@ -68,6 +68,11 @@ html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
   border-color: rgba(0,0,0,0.15);
 }
 
+.post-body.short {
+  overflow: hidden;
+  max-height: 500px;
+}
+
 body {
   font-size: 14px;
 }
@@ -280,6 +285,9 @@ a:focus {
 }
 .post-date {
   color: #ccc;
+}
+.comments {
+  padding: 1em;
 }
 .footer {
   text-align: center;

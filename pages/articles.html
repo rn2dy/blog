@@ -38,12 +38,9 @@
                 </p>
               </header>
 
-              {{if ge (len $a.FullContent) 255}}
-              <div class="post-body">{{$a.ShortContent}} ...</div>
+              <div class="post-body short">{{$a.FullContent}}</div>
+              <p>...</p>
               <a href="/blog/{{$a.Title | toLink}}">Read more</a>
-              {{else}}
-              <div class="post-body">{{$a.FullContent}}</div>
-              {{end}}
             </section>
           {{end}}
       </div>

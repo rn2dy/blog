@@ -112,4 +112,4 @@ func GetArchiveList() (byDate []time.Time, byTag tagSet) {
 
 func (arts Articles) Len() int           { return len(arts) }
 func (arts Articles) Swap(i, j int)      { arts[i], arts[j] = arts[j], arts[i] }
-func (arts Articles) Less(i, j int) bool { return arts[i].Date.Before(arts[j].Date) }
+func (arts Articles) Less(i, j int) bool { return arts[i].Date.After(arts[j].Date) }
