@@ -2,7 +2,7 @@ Why I want to do this? Here is the story - My current company uses ADP to log em
 
 But most new computers has either JDK 7 (OpenJDK for Ubuntu) or above. It won't work!
 
-Here is what is showing on my Ubuntu box (if you haven't already read the manual page for [http://linux.die.net/man/8/update-alternatives](update-alternative))
+Here is what is showing on my Ubuntu box (if you haven't already read the manual page for [update-alternative](http://linux.die.net/man/8/update-alternatives))
 
 <pre class="prettyprint lang-sh">
 \> update-alternatives --config java
@@ -17,7 +17,7 @@ Let's install JRE 6_u17 (required by the ADP portal) manually, if you want to in
 
 **Step I**
 
-Download jre-6u17 from here [http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase6-419409.html#jre-6u17-oth-JPR](Java SE 6 Archive)
+Download jre-6u17 from here [Java SE 6 Archive](http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase6-419409.html#jre-6u17-oth-JPR)
 
 For me I need to download *jre-6u17-linux-x64.bin*. (This is a excutable format which you can extract the content by just run it)
 
@@ -31,7 +31,7 @@ I also want to move it to where my default JDK installation is. Here is the sequ
 
 **Step II**
 
-Now is the time to use the [http://linux.die.net/man/8/update-alternatives](update-alternatives) command to make a alternative runtime for java:
+Now is the time to use the [update-alternatives](http://linux.die.net/man/8/update-alternatives) command to make a alternative runtime for java:
 
 <pre class="prettyprint lang-sh">
 \> sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jre1.6.0_17/bin/java 1
