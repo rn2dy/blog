@@ -18,6 +18,7 @@ var (
 	root, port string
 	config     *SiteConfig
 	mux        *Mux
+	appVersion string
 )
 
 func init() {
@@ -26,6 +27,9 @@ func init() {
 	flag.Parse()
 
 	config = NewSiteConfig(root)
+
+	appVersion = version()
+
 	router := &Router{
 		assetsServer: http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))),
 	}

@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/pure-min.css">
   <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
-  <link rel="stylesheet" href="/assets/css/blog.css">
+  <link rel="stylesheet" href="/assets/css/blog.css?v={{.Version}}">
   <!-- <link rel="stylesheet" href="assets/css/main.css"> -->
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -36,6 +36,7 @@
   {{ end }}
 
   <script type="text/javascript" charset="utf-8">
+    console.log("{{.Version}}")
     $(function(){
       $('html').click(function(){$('#archive-list-panel').hide();});
       $('#archive-list-panel,#archive-menu').click(function(e){e.stopPropagation()});

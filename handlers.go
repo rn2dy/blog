@@ -17,7 +17,8 @@ func indexHandler(_ *C, w http.ResponseWriter, r *http.Request) {
 	w.Write(renderPage("index.html", struct {
 		Title      string
 		SkipFooter bool
-	}{"", true}))
+		Version    string
+	}{"", true, appVersion}))
 }
 
 func blogHandler(c *C, w http.ResponseWriter, r *http.Request) {
@@ -26,7 +27,8 @@ func blogHandler(c *C, w http.ResponseWriter, r *http.Request) {
 		Title      string
 		Articles   Articles
 		SkipFooter bool
-	}{"Articles", articles, true}))
+		Version    string
+	}{"Articles", articles, true, appVersion}))
 }
 
 func articleHandler(c *C, w http.ResponseWriter, r *http.Request) {
@@ -46,5 +48,6 @@ func articleHandler(c *C, w http.ResponseWriter, r *http.Request) {
 		ArchiveByDate []time.Time
 		ArchiveByTag  tagSet
 		SkipFooter    bool
-	}{article.Title, article, byDate, byTag, true}))
+		Version       string
+	}{article.Title, article, byDate, byTag, true, appVersion}))
 }
