@@ -4,6 +4,9 @@ import (
 	"net/http"
 	"path/filepath"
 	"time"
+
+	"appengine"
+	"appengine/datastore"
 )
 
 // Handler a adapter for my own convenient
@@ -50,4 +53,22 @@ func articleHandler(c *C, w http.ResponseWriter, r *http.Request) {
 		SkipFooter    bool
 		Version       string
 	}{article.Title, article, byDate, byTag, true, appVersion}))
+}
+
+func subscribeHandler(c *C, w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	r.ParseForm()
+
+	if r.Form.Get("email") != "" {
+		http.Error(w, "Subscriber must provide an email.", http.StatusBadRequest)
+		return
+	}
+
+	sub := Subscriber{r.Form.Get("name"), r.Form.Get("email"), time.Now()}
+
+	_, err := datastore.Put(ctx, datastore.NewIncompleteKey(ctx, "Sub", subscribersKey(ctx)), &sub)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }

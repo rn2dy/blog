@@ -36,6 +36,7 @@ func init() {
 	router.add("/", indexHandler)
 	router.add("/blog", blogHandler)
 	router.add("/blog/:slug", articleHandler)
+	router.add("/subscribe", subscribeHandler)
 
 	mux = &Mux{router, nil}
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
