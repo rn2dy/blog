@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"appengine"
-	"appengine/datastore"
+  "google.golang.org/appengine"
+  "google.golang.org/appengine/datastore"
 )
 
 // Handler a adapter for my own convenient

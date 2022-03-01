@@ -3,8 +3,8 @@ package main
 import (
 	"time"
 
-	"appengine"
-	"appengine/datastore"
+  "golang.org/x/net/context"
+	"google.golang.org/appengine/datastore"
 )
 
 // Subscriber - describe subscribers
@@ -14,6 +14,6 @@ type Subscriber struct {
 	Since time.Time
 }
 
-func subscribersKey(c appengine.Context) *datastore.Key {
+func subscribersKey(c context.Context) *datastore.Key {
 	return datastore.NewKey(c, "Subscribers", "blog_subscribers", 0, nil)
 }
