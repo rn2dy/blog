@@ -17,3 +17,5 @@ To run it
 ```
 
 By default go to localhost:3000
+
+copyright 2022
